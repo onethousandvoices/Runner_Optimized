@@ -10,7 +10,7 @@ namespace Runner
 		[SerializeField]
 		private bool _isDamage;
 
-        void Start()
+        private void Start()
         {
             _collider.isTrigger = true;
         }

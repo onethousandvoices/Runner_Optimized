@@ -5,12 +5,12 @@ namespace Runner
 {
     public class GameManager : MonoBehaviour
     {
-        private int _progress = 0;
+        private int _progress;
 
-        private float _step = 6f;
-        private int _currentIndex = 0;
+        private const float _step = 6f;
+        private int _currentIndex;
         private float _lastZ = 30f;
-        private int _levelsLength = 1024 * 1024;
+        private const int _levelsLength = 1024 * 1024;
 
         [SerializeField, Range(1, 100), Tooltip("Это здоровье игрока, не перепутай")]
         private int Health = 3;
@@ -21,19 +21,15 @@ namespace Runner
         [SerializeField, Space]
         private Text _text;
 
-
         public static GameManager Self { get; private set; }
 
-
-
-        void Awake()
+        private void Awake()
         {
             Self = this;
         }
 
 		private void Update()
 		{
-            Debug.Log("Game Manager Update");
             if (_player.position.y <= -1f) SetDamage();
         }
 
@@ -43,12 +39,10 @@ namespace Runner
 
             Debug.Log("Current health: " + Health);
 
-            if(Health <= 0)
-            {
-                Debug.Log("---Игрок погиб!---");
-                UnityEditor.EditorApplication.isPaused = true;
-			}
-		}
+            if (Health > 0) return;
+            Debug.Log("---Игрок погиб!---");
+            UnityEditor.EditorApplication.isPaused = true;
+        }
 
         public void UpdateLevel()
         {
@@ -58,7 +52,7 @@ namespace Runner
             _lastZ += _step;
             for(int i = 0; i < _levelsLength; i++)
             {
-                var position = _levels[_currentIndex].position;
+                Vector3 position = _levels[_currentIndex].position;
                 position.z = _lastZ;
                 _levels[_currentIndex].position = position;
             }

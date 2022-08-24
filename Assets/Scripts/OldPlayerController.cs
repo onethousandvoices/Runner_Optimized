@@ -4,19 +4,14 @@ namespace Runner
 {
     public class OldPlayerController : BasePlayerController
     {
-        protected override void Start()
-        {
-            base.Start();
-        }
-
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (Input.GetKeyDown(KeyCode.Space)) Jump();
 
-            var direction = Input.GetAxis("Horizontal") * GetComponent<PlayerStatsComponent>().SideSpeed * Time.fixedDeltaTime;
+            var direction = Input.GetAxis("Horizontal") * _sideSpeed * Time.fixedDeltaTime;
 
             if (direction == 0f) return;
-            GetComponent<Rigidbody>().velocity += direction * transform.right;
+            _rb.velocity += direction * transform.right;
         }
 	}
 }
